@@ -1,17 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const parcelModel = require("../models/parcel-model")
+const authMiddleWare = require("../middlewares/isLoggedIn");
 
-router.get("/" , async(req , res) => {
-    const temp = await parcelModel.find({});
+router.get("/" ,authMiddleWare, async(req , res) => {
+    const tempData = req.user;
+    console.log(tempData.email)
+    const temp = await parcelModel.find({email: tempData.email});
     console.log(temp)
     res.send(temp)
 })
 
-router.post("/createParcel" , async(req , res) => {
+router.post("/getById" ,authMiddleWare, async(req , res) => {
+    const {parcelOrderNumber} = req.body;
+    const temp = await parcelModel.find({parcelOrderNumber});
+    console.log(temp)
+    res.send(temp)
+})
+
+router.post("/createParcel" ,authMiddleWare, async(req , res) => {
     const formData = req.body;
    const parcel = await parcelModel.create({
-    studentId: "1",
+    email: req.user.email,
     parcelOrderNumber: formData.orderNumber,
     receptionStatus: false,
     description: formData.description,
@@ -21,6 +31,5 @@ router.post("/createParcel" , async(req , res) => {
    console.log(parcel);
    res.send(parcel);
 })
-
 
 module.exports = router;

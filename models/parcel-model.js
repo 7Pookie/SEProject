@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 
 const parcelSchema = mongoose.Schema({
-    studentId: String,
+    email: String,
     serviceName: String,
     parcelOrderNumber: String,
     receptionStatus: Boolean,
