@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-
 const cookieParser = require("cookie-parser")
 const path = require("path")
 const ownerRouter = require("./routes/ownerRouter");
@@ -11,9 +10,10 @@ const complaintRouter = require("./routes/complaintRouter")
 const mongooseConnection = require("./config/mongoose-connection");
 const complaintModel = require("./models/complaint-model");
 const feedbackRouter = require("./routes/feedbackformRouter")
+
 app.use(cors({
-    origin: "http://localhost:3000",  // Allow frontend
-    credentials: true                 // Allow cookies
+    origin: "http://localhost:3000",  
+    credentials: true                 
 }));
 
 app.use(express.json())
@@ -25,6 +25,5 @@ app.use("/student" , studentRouter);
 app.use("/parcel", parcelRouter);
 app.use("/complaint", complaintRouter)
 app.use("/feedback" , feedbackRouter)
-
 
 app.listen(3001)
