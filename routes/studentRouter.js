@@ -40,9 +40,14 @@ router.get("/check-cookie", (req, res) => {
 });
 
 
-router.post("/logout", (req, res) => {
+router.get("/logout", (req, res) => {
     console.log("Cookies:", req.cookies);
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+      });
+      
     res.json(req.cookies);
 });
 
@@ -66,12 +71,10 @@ router.post("/register" , async(req , res) => {
                 password: hash,
                 parcel: [],
                 complaints: [],
-                rollNumber: "B220970CS",
-                course: "BTech",
-                major: "Computer Science",
-                hostel: "MBH - 2",
-                gender: "Male",
-                mobileNumber: "6394265406"
+                rollNumber: req.body.rollNumber,
+                course: req.body.course,
+                hostel: req.body.hostel,
+                mobileNumber: req.body.mobileNumber
             })
 
             let token = jwt.sign({email, userId: user._id} , "Hello" , {expiresIn: '2h'});
